@@ -15,7 +15,7 @@ import Image from 'next/image';
 import { Role } from '@/types';
 import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
-import Logo from "../Hazare-logo.png";
+
 
 export function Navbar() {
   const { data: session, status } = useSession();
@@ -56,7 +56,7 @@ export function Navbar() {
         <Link href="/" className="group flex items-center gap-3">
           <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden ring-1 ring-blue-100 shadow-sm shrink-0">
             <Image
-              src={Logo}
+              src="/Hazare-logo.png"
               alt="Hazare Dairy Farm logo"
               width={128}
               height={128}
@@ -65,7 +65,9 @@ export function Navbar() {
           </div>
           <div className="leading-tight">
             <span className="text-lg md:text-2xl font-extrabold text-blue-600 block">Hazare Dairy Farm</span>
-            <span className="text-xs md:text-sm text-gray-500 block -mt-0.5">Fresh dairy &amp; produce</span>
+            {!session || session?.user?.role === Role.CUSTOMER && (
+              <span className="text-xs md:text-sm text-gray-500 block -mt-0.5">Fresh dairy &amp; produce</span>
+            )}
           </div>
         </Link>
 

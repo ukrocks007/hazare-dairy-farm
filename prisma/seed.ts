@@ -43,7 +43,7 @@ async function main() {
       name: 'Cow Milk (1L)',
       description: 'Fresh, pure cow milk. Delivered daily morning.',
       price: 70,
-      image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400',
+      image: 'https://images.unsplash.com/photo-1517448931760-9bf4414148c5?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       category: 'MILK',
       stock: 500,
       isAvailable: true,
@@ -55,7 +55,7 @@ async function main() {
       name: 'Cow Milk (500ml)',
       description: 'Fresh, pure cow milk in 500ml pack.',
       price: 38,
-      image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400',
+      image: 'https://images.unsplash.com/photo-1517448931760-9bf4414148c5?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       category: 'MILK',
       stock: 500,
       isAvailable: true,
@@ -67,7 +67,7 @@ async function main() {
       name: 'Buffalo Milk (1L)',
       description: 'Rich and creamy buffalo milk. High fat content.',
       price: 85,
-      image: 'https://images.unsplash.com/photo-1559598467-f8b76c8155d0?w=400',
+      image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?w=400',
       category: 'MILK',
       stock: 300,
       isAvailable: true,
@@ -79,7 +79,7 @@ async function main() {
       name: 'Fresh Curd (500g)',
       description: 'Thick, creamy curd set from pure milk.',
       price: 50,
-      image: 'https://images.unsplash.com/photo-1599307767316-77f6b7d6a520?w=400',
+      image: 'https://images.unsplash.com/photo-1562114808-b4b33cf60f4f?q=80&w=2673&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?w=2048',
       category: 'CURD',
       stock: 100,
       isAvailable: true,
@@ -91,7 +91,7 @@ async function main() {
       name: 'Desi Ghee (500ml)',
       description: 'Aromatic ghee made from traditional bilona method.',
       price: 650,
-      image: 'https://images.unsplash.com/photo-1631451095765-2c91616fc9e6?w=400',
+      image: 'https://images.unsplash.com/photo-1590147315472-e701a4775379?w=2048',
       category: 'GHEE',
       stock: 50,
       isAvailable: true,
@@ -100,14 +100,26 @@ async function main() {
     },
     {
       name: 'Fresh Paneer (200g)',
-      description: 'Soft and fresh paneer cubes.',
+      description: 'Soft and fresh paneer cubes. Protein-rich & made from our farm-fresh milk.',
       price: 90,
-      image: 'https://images.unsplash.com/photo-1559598467-f8b76c8155d0?w=400', // Placeholder
+      image: 'https://www.seriouseats.com/thmb/jdFyRQOfbKA1COGPrkN5927FiBs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20220628-FreshPaneer-AmandaSuarez-11c5e6f76d064cf88153a93d28384bc8.jpg', // Placeholder
       category: 'PANEER',
       stock: 100,
       isAvailable: true,
       fatPercentage: 15.0,
       shelfLifeDays: 3,
+      isRefrigerated: true,
+    },
+    {
+      name: 'Butter (500g)',
+      description: 'Rich, creamy butter made from pure, fresh milk for everyday goodness.',
+      price: 300,
+      image: 'https://images.unsplash.com/photo-1662988564960-e7937ade2c99?q=80&w=1307&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Placeholder
+      category: 'BUTTER',
+      stock: 100,
+      isAvailable: true,
+      fatPercentage: 80.0,
+      shelfLifeDays: 270,
       isRefrigerated: true,
     },
   ];
@@ -138,7 +150,7 @@ async function main() {
       description: 'Get fresh milk delivered to your doorstep every morning.',
       frequency: 'DAILY',
       price: 0, // Pay per delivery calculation usually, or monthly
-      features: JSON.stringify(['Free Delivery', 'Morning 6-8 AM', 'Pause Anytime']),
+      features: ['Free Delivery', 'Morning 6-8 AM', 'Pause Anytime'].join('\n'),
       imageUrl: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400'
     },
     {
@@ -146,8 +158,8 @@ async function main() {
       description: 'Milk delivery every alternate day.',
       frequency: 'ALTERNATE_DAYS',
       price: 0,
-      features: JSON.stringify(['Flexible Schedule', 'Morning 6-8 AM']),
-      imageUrl: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400'
+      features: ['Flexible Schedule', 'Morning 6-8 AM'].join('\n'),
+      imageUrl: 'https://images.unsplash.com/photo-1517448931760-9bf4414148c5?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     }
   ];
 
