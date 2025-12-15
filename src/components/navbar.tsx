@@ -15,6 +15,7 @@ import Image from 'next/image';
 import { Role } from '@/types';
 import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
+import Logo from "../Hazare-logo.png";
 
 export function Navbar() {
   const { data: session, status } = useSession();
@@ -55,7 +56,7 @@ export function Navbar() {
         <Link href="/" className="group flex items-center gap-3">
           <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden ring-1 ring-blue-100 shadow-sm shrink-0">
             <Image
-              src="/Hazare-logo.png"
+              src={Logo}
               alt="Hazare Dairy Farm logo"
               width={128}
               height={128}
