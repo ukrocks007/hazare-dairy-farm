@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Logo from "../Hazare-logo.png";
 import { ShoppingCart, User, LogOut, Package, Settings, Truck, Building2 } from 'lucide-react';
 import Image from 'next/image';
 import { Role } from '@/types';
@@ -56,7 +57,7 @@ export function Navbar() {
         <Link href="/" className="group flex items-center gap-3">
           <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden ring-1 ring-blue-100 shadow-sm shrink-0">
             <Image
-              src="/Hazare-logo.png"
+              src={Logo}
               alt="Hazare Dairy Farm logo"
               width={128}
               height={128}
