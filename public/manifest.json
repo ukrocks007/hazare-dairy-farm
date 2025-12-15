@@ -1,0 +1,21 @@
+{
+  "name": "Hazare Dairy Farm",
+  "short_name": "Hazare Dairy",
+  "description": "Farm-fresh milk, curd, paneer and ghee delivered to your doorstep daily.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f5132",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
