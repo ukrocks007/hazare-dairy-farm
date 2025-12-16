@@ -420,7 +420,6 @@ model Review {
   userId          String
   rating          Int          // 1-5 stars
   title           String?
-  description     String?
   comment         String
   verifiedPurchase Boolean     @default(false)
   status          ReviewStatus @default(PENDING)
