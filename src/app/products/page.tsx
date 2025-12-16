@@ -33,7 +33,7 @@ export default function ProductsPage() {
   const [addingToCart, setAddingToCart] = useState<Record<string, boolean>>({});
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showStockOnProductPages, setShowStockOnProductPages] = useState(true);
-  const categories = ['all', 'MILK', 'CURD', 'PANEER', 'GHEE', 'BUTTER'];
+  const categories = ['all', 'MILK', 'CURD', 'PANEER', 'GHEE', 'BUTTER', 'LASSI', 'BUTTERMILK', 'KHOVA', 'DESSERT'];
 
   useEffect(() => {
     // Get category from URL
