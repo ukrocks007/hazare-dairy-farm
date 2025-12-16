@@ -192,7 +192,7 @@ export default function ProfilePage() {
                 </div>
                 <div>
                   <Label>Email</Label>
-                  <Input value={session.user.email} disabled />
+                  <Input value={session.user.email ?? ''} disabled />
                 </div>
                 <div>
                   <Label>Role</Label>

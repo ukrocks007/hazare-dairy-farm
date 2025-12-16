@@ -110,7 +110,7 @@ export async function calculateCLV(): Promise<CLVSummary> {
 
     return {
       userId: customer.id,
-      email: customer.email,
+      email: customer.email ?? 'N/A',
       name: customer.name,
       totalRevenue,
       orderCount,
@@ -365,7 +365,7 @@ export async function calculateRFM(): Promise<RFMSummary> {
 
     return {
       userId: customer.id,
-      email: customer.email,
+      email: customer.email ?? 'N/A',
       name: customer.name,
       recency,
       frequency,

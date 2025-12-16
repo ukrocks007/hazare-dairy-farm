@@ -115,18 +115,18 @@ export function formatOrdersForExport(orders: Array<{
   paymentStatus: string;
   razorpayPaymentId: string | null;
   createdAt: Date;
-  user: { name: string | null; email: string };
+  user: { name: string | null; email: string | null };
   address: { 
     city: string; 
     state: string;
     pincode: string;
-  };
+  } | null;
   items: Array<{ quantity: number }>;
 }>): OrderExportRow[] {
   return orders.map(order => ({
     orderNumber: order.orderNumber,
     customerName: order.user.name || 'N/A',
-    customerEmail: order.user.email,
+    customerEmail: order.user.email || 'N/A',
     totalAmount: order.totalAmount,
     status: order.status,
     paymentStatus: order.paymentStatus,
@@ -224,7 +224,7 @@ export function formatInvoiceData(order: {
   paymentStatus: string;
   razorpayPaymentId: string | null;
   createdAt: Date;
-  user: { name: string | null; email: string; phone: string | null };
+  user: { name: string | null; email: string | null; phone: string | null };
   address: {
     name: string;
     phone: string;
@@ -233,7 +233,7 @@ export function formatInvoiceData(order: {
     city: string;
     state: string;
     pincode: string;
-  };
+  } | null;
   items: Array<{
     quantity: number;
     price: number;
@@ -247,9 +247,10 @@ export function formatInvoiceData(order: {
     orderDate: order.createdAt.toISOString().split('T')[0],
     customer: {
       name: order.user.name || (order.address ? order.address.name : 'In-Store Customer'),
-      email: order.user.email,
+      email: order.user.email || 'N/A',
       phone: order.user.phone || (order.address ? order.address.phone : 'N/A'),
     },
+
     deliveryAddress: order.address ? {
       name: order.address.name,
       addressLine1: order.address.addressLine1,
