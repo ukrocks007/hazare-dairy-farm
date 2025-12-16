@@ -11,17 +11,22 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        email: { label: 'Email', type: 'email' },
+        identifier: { label: 'Email or Phone', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        if (!credentials?.identifier || !credentials?.password) {
           throw new Error('Invalid credentials');
         }
 
-        const user = await prisma.user.findUnique({
+        // Allow login with email OR phone
+        const identifier = credentials.identifier;
+        const user = await prisma.user.findFirst({
           where: {
-            email: credentials.email,
+            OR: [
+              { email: identifier },
+              { phone: identifier },
+            ],
           },
         });
 
@@ -40,7 +45,7 @@ export const authOptions: NextAuthOptions = {
 
         return {
           id: user.id,
-          email: user.email,
+          email: user.email || null,
           name: user.name,
           role: user.role,
         };

@@ -87,10 +87,51 @@ export async function POST(request: NextRequest) {
     // Generate order number for POS
     const orderNumber = `POS-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-    // Get or create a POS address for in-store sales
+    // Find or create the customer user (allow walk-in without email/password)
+    let customer = null;
+
+    if (customerPhone) {
+      customer = await prisma.user.findFirst({ where: { phone: customerPhone } });
+    }
+
+    if (!customer && customerName) {
+      // Try to find by name and no identifying phone/email - only as a last resort
+      customer = await prisma.user.findFirst({ where: { name: customerName } });
+    }
+
+    if (!customer && customerPhone) {
+      // Create a lightweight walk-in customer with phone
+      customer = await prisma.user.create({
+        data: {
+          name: customerName || 'Walk-in Customer',
+          email: null as unknown as string,
+          phone: customerPhone,
+          role: 'CUSTOMER',
+        },
+      });
+    }
+
+    if (!customer) {
+      // Create an anonymous walk-in customer without phone/email
+      customer = await prisma.user.create({
+        data: {
+          name: customerName || 'Walk-in Customer',
+          email: null as unknown as string,
+          phone: null as unknown as string,
+          role: 'CUSTOMER',
+        },
+      });
+    }
+
+    // Update customer name if provided and missing
+    if (customerName && (!customer.name || customer.name === 'Walk-in Customer')) {
+      customer = await prisma.user.update({ where: { id: customer.id }, data: { name: customerName } });
+    }
+
+    // Get or create a POS address for the customer
     let posAddress = await prisma.address.findFirst({
       where: {
-        userId: session.user.id,
+        userId: customer.id,
         name: 'In-Store POS',
       },
     });
@@ -98,9 +139,9 @@ export async function POST(request: NextRequest) {
     if (!posAddress) {
       posAddress = await prisma.address.create({
         data: {
-          userId: session.user.id,
+          userId: customer.id,
           name: 'In-Store POS',
-          phone: '0000000000',
+          phone: customerPhone || '0000000000',
           addressLine1: 'In-Store Purchase',
           city: 'Store Location',
           state: 'Store',
@@ -110,10 +151,10 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Create the order
+    // Create the order (assigned to the customer)
     const order = await prisma.order.create({
       data: {
-        userId: session.user.id,
+        userId: customer.id,
         addressId: posAddress.id,
         orderNumber,
         totalAmount,

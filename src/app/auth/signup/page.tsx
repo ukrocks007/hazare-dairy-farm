@@ -16,6 +16,7 @@ export default function SignUpPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     password: '',
   });
 
@@ -24,6 +25,13 @@ export default function SignUpPage() {
     setLoading(true);
 
     try {
+        // Client: ensure at least email or phone
+      if (!formData.email && !formData.phone) {
+        toast.error('Email or phone is required');
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
@@ -42,9 +50,10 @@ export default function SignUpPage() {
 
       toast.success('Account created successfully');
 
-      // Sign in after registration
+      // Sign in after registration using email or phone as identifier
+      const identifier = formData.email || formData.phone;
       const result = await signIn('credentials', {
-        email: formData.email,
+        identifier,
         password: formData.password,
         redirect: false,
       });
@@ -81,14 +90,23 @@ export default function SignUpPage() {
               />
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Email (optional)</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="you@example.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="phone">Phone (optional)</Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="9999999999"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               />
             </div>
             <div>

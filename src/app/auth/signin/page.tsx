@@ -14,7 +14,7 @@ export default function SignInPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
+    identifier: '',
     password: '',
   });
 
@@ -23,8 +23,14 @@ export default function SignInPage() {
     setLoading(true);
 
     try {
+        if (!formData.identifier) {
+        toast.error('Email or phone is required');
+        setLoading(false);
+        return;
+      }
+
       const result = await signIn('credentials', {
-        email: formData.email,
+        identifier: formData.identifier,
         password: formData.password,
         redirect: false,
       });
@@ -53,13 +59,13 @@ export default function SignInPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="identifier">Email or Phone</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                id="identifier"
+                type="text"
+                placeholder="you@example.com or 9999999999"
+                value={formData.identifier}
+                onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
                 required
               />
             </div>
