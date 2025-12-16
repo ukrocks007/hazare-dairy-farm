@@ -172,7 +172,7 @@ export function Navbar() {
               <Link href="/auth/signin">
                 <Button variant="ghost">Sign In</Button>
               </Link>
-              <Link href="/auth/signup">
+              <Link href="/auth/signup" className="hidden md:block">
                 <Button>Sign Up</Button>
               </Link>
             </>
