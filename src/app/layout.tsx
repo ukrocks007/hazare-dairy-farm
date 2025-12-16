@@ -77,9 +77,10 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content="/android-chrome-512x512.png" />
       </head>
-      <body
-        className="font-sans antialiased"
-      >
+      {/* suppressHydrationWarning: browser extensions (eg. Grammarly) may inject attributes
+          into the client DOM that don't exist on the server-rendered HTML and cause
+          hydration mismatch warnings in dev. */}
+      <body suppressHydrationWarning className="font-sans antialiased">
         <Providers>
           {children}
         </Providers>
