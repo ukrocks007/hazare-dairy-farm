@@ -36,7 +36,8 @@ import { Loader2, Search, Trash2, MessageSquare } from 'lucide-react';
 interface User {
   id: string;
   name: string | null;
-  email: string;
+  email: string | null;
+  phone?: string | null;
   role: string;
   createdAt: string;
   _count: {
@@ -50,6 +51,8 @@ interface CustomerNote {
   note: string;
   createdAt: string;
 }
+
+const nullPlaceholder = '-';
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -93,8 +96,8 @@ export default function AdminUsersPage() {
     // Search filter
     if (searchQuery) {
       filtered = filtered.filter(user =>
-        user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.name?.toLowerCase().includes(searchQuery.toLowerCase())
+        ((user.email || "")?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.name?.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }
 
@@ -251,6 +254,7 @@ export default function AdminUsersPage() {
                   <TableRow>
                     <TableHead>Name</TableHead>
                     <TableHead>Email</TableHead>
+                    <TableHead>Phone</TableHead>
                     <TableHead>Role</TableHead>
                     <TableHead>Orders</TableHead>
                     <TableHead>Subscriptions</TableHead>
@@ -273,9 +277,10 @@ export default function AdminUsersPage() {
                         onClick={() => openNotesDialog(user)}
                       >
                         <TableCell className="font-medium">
-                          {user.name || 'N/A'}
+                          {user.name || nullPlaceholder}
                         </TableCell>
-                        <TableCell>{user.email}</TableCell>
+                        <TableCell>{user.email || nullPlaceholder}</TableCell>
+                        <TableCell>{user.phone || nullPlaceholder}</TableCell>
                         <TableCell onClick={(e) => e.stopPropagation()}>
                           <Select
                             value={user.role}
