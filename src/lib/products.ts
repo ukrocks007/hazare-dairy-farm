@@ -85,7 +85,18 @@ export async function getCategories() {
                     emoji = '🥝';
                     color = 'bg-purple-100';
                     break;
+                case 'fruits':
+                    emoji = '🍓';
+                    color = 'bg-pink-100';
+                    break;
+                case 'vegetables':
+                case 'greens':
+                case 'veggies':
+                    emoji = '🥬';
+                    color = 'bg-green-100';
+                    break;
                 case 'milk':
+                case 'dairy':
                     emoji = '🥛';
                     color = 'bg-sky-100';
                     break;
@@ -94,6 +105,7 @@ export async function getCategories() {
                     color = 'bg-amber-100';
                     break;
                 case 'paneer':
+                case 'cheese':
                     emoji = '🧀';
                     color = 'bg-amber-100';
                     break;
@@ -104,6 +116,26 @@ export async function getCategories() {
                 case 'butter':
                     emoji = '🧈';
                     color = 'bg-amber-100';
+                    break;
+                case 'lassi':
+                    emoji = '🥤';
+                    color = 'bg-indigo-50';
+                    break;
+                case 'buttermilk':
+                case 'chach':
+                    emoji = '🥛';
+                    color = 'bg-sky-50';
+                    break;
+                case 'khova':
+                case 'khoa':
+                case 'mava':
+                    emoji = '🍮';
+                    color = 'bg-yellow-50';
+                    break;
+                case 'dessert':
+                case 'sweets':
+                    emoji = '🍰';
+                    color = 'bg-pink-50';
                     break;
                 default:
                     emoji = '🧺';
