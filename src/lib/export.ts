@@ -132,7 +132,7 @@ export function formatOrdersForExport(orders: Array<{
     paymentStatus: order.paymentStatus,
     paymentMethod: order.razorpayPaymentId ? 'Razorpay' : 'COD',
     createdAt: order.createdAt.toISOString().split('T')[0],
-    deliveryAddress: `${order.address.city}, ${order.address.state} - ${order.address.pincode}`,
+    deliveryAddress: order.address ? `${order.address.city}, ${order.address.state} - ${order.address.pincode}` : 'In-Store Purchase',
     itemCount: order.items.reduce((sum, item) => sum + item.quantity, 0),
   }));
 }
@@ -246,17 +246,24 @@ export function formatInvoiceData(order: {
     orderNumber: order.orderNumber,
     orderDate: order.createdAt.toISOString().split('T')[0],
     customer: {
-      name: order.user.name || order.address.name,
+      name: order.user.name || (order.address ? order.address.name : 'In-Store Customer'),
       email: order.user.email,
-      phone: order.user.phone || order.address.phone,
+      phone: order.user.phone || (order.address ? order.address.phone : 'N/A'),
     },
-    deliveryAddress: {
+    deliveryAddress: order.address ? {
       name: order.address.name,
       addressLine1: order.address.addressLine1,
       addressLine2: order.address.addressLine2,
       city: order.address.city,
       state: order.address.state,
       pincode: order.address.pincode,
+    } : {
+      name: 'In-Store Purchase',
+      addressLine1: 'In-Store',
+      addressLine2: null,
+      city: 'Store Location',
+      state: 'Store',
+      pincode: '000000',
     },
     items: order.items.map(item => ({
       name: item.product.name,

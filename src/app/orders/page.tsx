@@ -18,6 +18,7 @@ async function getUserOrdersWithReviews(userId: string) {
         },
       },
       address: true,
+      user: true,
     },
     orderBy: {
       createdAt: 'desc',
@@ -127,11 +128,21 @@ export default async function OrdersPage() {
                   <div className="border-t pt-4 mb-4">
                     <h3 className="font-semibold mb-2">Delivery Address</h3>
                     <p className="text-sm text-gray-600">
-                      {order.address.name}<br />
-                      {order.address.addressLine1}<br />
-                      {order.address.addressLine2 && <>{order.address.addressLine2}<br /></>}
-                      {order.address.city}, {order.address.state} - {order.address.pincode}<br />
-                      Phone: {order.address.phone}
+                      {order.address ? (
+                        <>
+                          {order.address.name}<br />
+                          {order.address.addressLine1}<br />
+                          {order.address.addressLine2 && <>{order.address.addressLine2}<br /></>}
+                          {order.address.city}, {order.address.state} - {order.address.pincode}<br />
+                          Phone: {order.address.phone}
+                        </>
+                      ) : (
+                        <>
+                          In-Store Purchase<br />
+                          {order.user?.name || 'Walk-in Customer'}<br />
+                          Phone: {order.user?.phone || 'N/A'}
+                        </>
+                      )}
                     </p>
                   </div>
 

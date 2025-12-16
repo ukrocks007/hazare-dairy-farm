@@ -43,6 +43,7 @@ interface Order {
   user: {
     name: string;
     email: string;
+    phone: string | null;
   };
   address: {
     name: string;
@@ -538,19 +539,20 @@ export default function AdminOrdersPage() {
                 <div className="bg-gray-50 p-4 rounded">
                   <p className="font-medium">{selectedOrder.user.name}</p>
                   <p className="text-sm text-gray-600">{selectedOrder.user.email}</p>
+                  <p className="text-sm text-gray-600">{selectedOrder.user.phone}</p>
                 </div>
               </div>
 
-              <div>
+              {selectedOrder.address?.name && <div>
                 <h3 className="font-semibold mb-2">Delivery Address</h3>
                 <div className="bg-gray-50 p-4 rounded">
-                  <p className="font-medium">{selectedOrder.address.name}</p>
-                  <p className="text-sm text-gray-600">Phone: {selectedOrder.address.phone}</p>
-                  <p className="text-sm text-gray-600">
-                    {selectedOrder.address.city}, {selectedOrder.address.state}
-                  </p>
+                  <p className="font-medium">{selectedOrder.address?.name}</p>
+                  {selectedOrder.address?.phone && <p className="text-sm text-gray-600">Phone: {selectedOrder.address?.phone}</p>}
+                  {(selectedOrder.address?.city || selectedOrder.address?.state) && (<p className="text-sm text-gray-600">
+                    {selectedOrder.address?.city || "-"}, {selectedOrder.address?.state || "-"}
+                  </p>)}
                 </div>
-              </div>
+              </div>}
 
               {selectedOrder.deliveryPartner && (
                 <div>
@@ -559,14 +561,14 @@ export default function AdminOrdersPage() {
                     <Truck className="h-5 w-5 text-green-600" />
                     <div>
                       <p className="font-medium">
-                        {selectedOrder.deliveryPartner.name || 'N/A'}
+                        {selectedOrder.deliveryPartner?.name || 'N/A'}
                       </p>
                       <p className="text-sm text-gray-600">
-                        {selectedOrder.deliveryPartner.email}
+                        {selectedOrder.deliveryPartner?.email}
                       </p>
-                      {selectedOrder.deliveryPartner.phone && (
+                      {selectedOrder.deliveryPartner?.phone && (
                         <p className="text-sm text-gray-600">
-                          Phone: {selectedOrder.deliveryPartner.phone}
+                          Phone: {selectedOrder.deliveryPartner?.phone}
                         </p>
                       )}
                     </div>

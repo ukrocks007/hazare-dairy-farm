@@ -145,7 +145,7 @@ model InventoryForecast {
 model Order {
   id                 String      @id @default(cuid())
   userId             String
-  addressId          String
+  addressId          String?
   orderNumber        String      @unique
   totalAmount        Float
   pointsRedeemed     Int         @default(0) // Loyalty points redeemed for this order
@@ -174,7 +174,7 @@ model Order {
   updatedAt          DateTime    @updatedAt
 
   user                User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  address             Address       @relation(fields: [addressId], references: [id])
+  address             Address?      @relation(fields: [addressId], references: [id])
   subscription        Subscription? @relation(fields: [subscriptionId], references: [id])
   deliveryPartner     User?         @relation("DeliveryPartner", fields: [deliveryPartnerId], references: [id])
   warehouse           Warehouse?    @relation(fields: [warehouseId], references: [id])

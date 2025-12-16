@@ -128,34 +128,12 @@ export async function POST(request: NextRequest) {
       customer = await prisma.user.update({ where: { id: customer.id }, data: { name: customerName } });
     }
 
-    // Get or create a POS address for the customer
-    let posAddress = await prisma.address.findFirst({
-      where: {
-        userId: customer.id,
-        name: 'In-Store POS',
-      },
-    });
+    // POS orders do not use an address record. They are created without attaching an address.
 
-    if (!posAddress) {
-      posAddress = await prisma.address.create({
-        data: {
-          userId: customer.id,
-          name: 'In-Store POS',
-          phone: customerPhone || '0000000000',
-          addressLine1: 'In-Store Purchase',
-          city: 'Store Location',
-          state: 'Store',
-          pincode: '000000',
-          isDefault: false,
-        },
-      });
-    }
-
-    // Create the order (assigned to the customer)
-    const order = await prisma.order.create({
+    // Create the order (assigned to the customer). POS orders do not attach an address
+    const createdOrder = await prisma.order.create({
       data: {
-        userId: customer.id,
-        addressId: posAddress.id,
+        user: { connect: { id: customer.id } },
         orderNumber,
         totalAmount,
         status: 'DELIVERED', // POS orders are immediately delivered
@@ -165,6 +143,11 @@ export async function POST(request: NextRequest) {
           create: orderItems,
         },
       },
+    });
+
+    // Fetch the created order with items and product details
+    const order = await prisma.order.findUnique({
+      where: { id: createdOrder.id },
       include: {
         items: {
           include: {
@@ -173,6 +156,10 @@ export async function POST(request: NextRequest) {
         },
       },
     });
+
+    if (!order) {
+      throw new Error('Failed to fetch created order');
+    }
 
     // Update product stock
     for (const item of orderItems) {

@@ -56,8 +56,9 @@ interface Order {
   user: {
     name: string;
     email: string;
+    phone: string;
   };
-  address: {
+  address?: {
     name: string;
     phone: string;
     addressLine1: string;
@@ -65,7 +66,7 @@ interface Order {
     city: string;
     state: string;
     pincode: string;
-  };
+  } | null;
   items: OrderItem[];
 }
 
@@ -100,12 +101,12 @@ export default function DeliveryDashboardPage() {
   const filterOrders = useCallback(() => {
     let filtered = orders;
 
-    if (searchTerm) {
+      if (searchTerm) {
       filtered = filtered.filter(
         (order) =>
           order.orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
           order.user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          order.address.city.toLowerCase().includes(searchTerm.toLowerCase())
+          (order.address?.city || '').toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -363,15 +364,15 @@ export default function DeliveryDashboardPage() {
                             <p className="font-medium">{order.user.name}</p>
                             <p className="text-sm text-gray-500 flex items-center gap-1">
                               <Phone className="h-3 w-3" />
-                              {order.address.phone}
+                              {order.address?.phone || order.user?.phone || 'N/A'}
                             </p>
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-start gap-1">
-                            <MapPin className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                            <MapPin className="h-4 w-4 text-gray-400 mt-0.5 shrink-0" />
                             <span className="text-sm">
-                              {order.address.city}, {order.address.pincode}
+                              {(order.address ? `${order.address.city}, ${order.address.pincode}` : 'In-Store Purchase')}
                             </span>
                           </div>
                         </TableCell>
@@ -460,26 +461,32 @@ export default function DeliveryDashboardPage() {
                 <div className="bg-gray-50 p-4 rounded">
                   <p className="font-medium">{selectedOrder.user.name}</p>
                   <p className="text-sm text-gray-600">{selectedOrder.user.email}</p>
+                  <p className="text-sm text-gray-600">{selectedOrder.user.phone}</p>
                 </div>
               </div>
 
               <div>
                 <h3 className="font-semibold mb-2">Delivery Address</h3>
                 <div className="bg-gray-50 p-4 rounded">
-                  <p className="font-medium">{selectedOrder.address.name}</p>
+                  <p className="font-medium">{selectedOrder.address ? selectedOrder.address.name : 'In-Store Purchase'}</p>
                   <p className="text-sm text-gray-600">
                     <Phone className="h-3 w-3 inline mr-1" />
-                    {selectedOrder.address.phone}
+                    {selectedOrder.address?.phone || selectedOrder.user?.phone || 'N/A'}
                   </p>
                   <p className="text-sm text-gray-600 mt-2">
-                    {selectedOrder.address.addressLine1}
-                    {selectedOrder.address.addressLine2 && (
-                      <>, {selectedOrder.address.addressLine2}</>
+                    {selectedOrder.address ? (
+                      <>
+                        {selectedOrder.address.addressLine1}
+                        {selectedOrder.address.addressLine2 && (
+                          <>, {selectedOrder.address.addressLine2}</>
+                        )}
+                      </>
+                    ) : (
+                      'In-Store Purchase'
                     )}
                   </p>
                   <p className="text-sm text-gray-600">
-                    {selectedOrder.address.city}, {selectedOrder.address.state} -{' '}
-                    {selectedOrder.address.pincode}
+                    {selectedOrder.address ? `${selectedOrder.address.city}, ${selectedOrder.address.state} - ${selectedOrder.address.pincode}` : ''}
                   </p>
                 </div>
               </div>

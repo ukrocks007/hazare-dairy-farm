@@ -193,7 +193,7 @@ export interface OrderWithItems {
     price: number;
     product: ProductWithStock;
   }[];
-  address: {
+  address?: {
     name: string;
     phone: string;
     addressLine1: string;
@@ -201,7 +201,7 @@ export interface OrderWithItems {
     city: string;
     state: string;
     pincode: string;
-  };
+  } | null;
 }
 
 // Subscription Types
