@@ -143,7 +143,7 @@ export function formatOrdersForExport(orders: Array<{
 export function formatCustomersForExport(customers: Array<{
   id: string;
   name: string | null;
-  email: string;
+  email: string | null;
   phone: string | null;
   createdAt: Date;
   orders: Array<{ totalAmount: number; paymentStatus: string }>;
@@ -153,7 +153,7 @@ export function formatCustomersForExport(customers: Array<{
     return {
       id: customer.id,
       name: customer.name || 'N/A',
-      email: customer.email,
+      email: customer.email || 'N/A',
       phone: customer.phone || 'N/A',
       signupDate: customer.createdAt.toISOString().split('T')[0],
       totalOrders: paidOrders.length,
