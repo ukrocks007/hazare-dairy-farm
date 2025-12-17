@@ -168,9 +168,6 @@ export default function AdminPOSPage() {
       
       return [...prevCart, { product, quantity: 1 }];
     });
-    
-    // Focus back on search
-    searchInputRef.current?.focus();
   }, []);
 
   const updateQuantity = useCallback((productId: string, delta: number) => {
